@@ -16,24 +16,57 @@
 
 #include <TlHelp32.h>
 
+#include <string>
+
 #include "Info.h"
 #include "Offsets.h"
 
+// Error codes
+#define SUCCESS 0
+#define ERR_PID_NOT_FOUND 1
+#define ERR_MOD_ADD_NOT_FOUND 2
+#define ERR_VER_NOT_FOUND 3
+
 class ERHook
 {
-    DWORD PID;
-    uintptr_t baseAddress;
-    info Info;
-    offsets Offsets;
-    void getProcessID(void);
-    void getBaseAddress(const wchar_t* modName);
-    void getGameVersion(void);
+    DWORD PID;             // Process ID
+    uintptr_t baseAddress; // Module base address
+    info Info;             // Game info
+    offsets Offsets;       // Memory offsets
+    bool hooked;           // Hook status
+
+    bool getProcessID(void);
+    bool getBaseAddress(const wchar_t* modName);
+    bool getGameVersion(void);
+
+    // MemoryTools
+    template <typename T> T readMemory(uintptr_t address);
+    template <typename T> void writeMemory(uintptr_t address, T value);
+    std::string ERHook::readMemoryString(uintptr_t address);
+    void ERHook::writeMemoryString(uintptr_t address, std::string value);
+    void ERHook::patch(BYTE* destination, BYTE* src, unsigned int size);
 
   public:
     ERHook();
     ~ERHook();
-    void start(void);
-    void stop(void);
+    int start(void);
+    int stop(void);
+    bool isHooked(void);
 };
 
+template <typename T> inline T ERHook::readMemory(uintptr_t address)
+{
+    T value;
+    HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, this->_pID);
+    ReadProcessMemory(pHandle, (LPCVOID)(address), &value, sizeof(value), NULL);
+    CloseHandle(pHandle);
+    return value;
+}
+
+template <typename T> inline void ERHook::writeMemory(uintptr_t address, T value)
+{
+    HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, NULL, this->_pID);
+    WriteProcessMemory(pHandle, (LPVOID)(address), &value, sizeof(value), NULL);
+    CloseHandle(pHandle);
+}
 #endif
