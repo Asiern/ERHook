@@ -185,3 +185,13 @@ bool ERHook::isHooked(void)
 {
     return this->hooked;
 }
+
+/**
+ * @brief Get process id
+ *
+ * @return DWORD Process ID
+ */
+DWORD ERHook::getPID(void)
+{
+    return this->PID;
+}

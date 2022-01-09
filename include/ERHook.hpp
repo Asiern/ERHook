@@ -52,6 +52,7 @@ class ERHook
     int start(void);
     int stop(void);
     bool isHooked(void);
+    DWORD getPID(void);
 };
 
 template <typename T> inline T ERHook::readMemory(uintptr_t address)
