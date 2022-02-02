@@ -46,19 +46,18 @@ bool ERHook::getBaseAddress(const wchar_t* modName)
     HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, this->PID);
     if (hSnap != INVALID_HANDLE_VALUE)
     {
-        MODULEENTRY32 modEntry;
+        MODULEENTRY32W modEntry;
         modEntry.dwSize = sizeof(modEntry);
-        if (Module32First(hSnap, &modEntry))
+        if (Module32FirstW(hSnap, &modEntry))
         {
             do
             {
-                // TODO fix char to wchar_t
-                // if (!_wcsicmp(modEntry.szModule, modName))
-                // {
-                //     this->baseAddress = (uintptr_t)modEntry.modBaseAddr;
-                // return true;
-                // }
-            } while (Module32Next(hSnap, &modEntry));
+                if (!_wcsicmp(modEntry.szModule, modName))
+                {
+                    this->baseAddress = (uintptr_t)modEntry.modBaseAddr;
+                    return true;
+                }
+            } while (Module32NextW(hSnap, &modEntry));
         }
     }
     CloseHandle(hSnap);
