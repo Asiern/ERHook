@@ -19,7 +19,7 @@
  */
 bool ERHook::getProcessID(void)
 {
-    HWND hwnd = FindWindowA(NULL, ""); // TODO set window name
+    HWND hwnd = FindWindowA(NULL, "ELDEN RING™");
     if (hwnd == NULL)
         return false;
 
@@ -141,18 +141,18 @@ int ERHook::start(void)
         return ERR_PID_NOT_FOUND;
     }
 
-    // Get Base Address
-    if (getBaseAddress(L"") == false) // TODO set module name
-    {
-        return ERR_MOD_ADD_NOT_FOUND;
-    }
+    // // Get Base Address
+    // if (getBaseAddress(L"eldenring.exe") == false)
+    // {
+    //     return ERR_MOD_ADD_NOT_FOUND;
+    // }
 
-    // Set proper offsets
-    if (getGameVersion() == false)
-    {
-        return ERR_VER_NOT_FOUND;
-    }
-    loadOffsets(this->Info.versionCode, &this->Offsets);
+    // // Set proper offsets
+    // if (getGameVersion() == false)
+    // {
+    //     return ERR_VER_NOT_FOUND;
+    // }
+    // loadOffsets(this->Info.versionCode, &this->Offsets);
 
     // Change hooked status
     hooked = true;

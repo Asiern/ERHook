@@ -12,7 +12,11 @@
 #ifndef ERHOOK_H
 #define ERHOOK_H
 
+#ifdef USING_WINSOCK2
+#include <WinSock2.h>
+#else
 #include <Windows.h>
+#endif;
 
 #include <TlHelp32.h>
 
