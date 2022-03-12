@@ -193,6 +193,12 @@ bool ERHook::isHooked(void)
     return this->hooked;
 }
 
+void ERHook::update(void)
+{
+    if (this->PID != this->getPID())
+        this->hooked = false;
+}
+
 /**
  * @brief Get process id
  *

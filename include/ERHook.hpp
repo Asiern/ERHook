@@ -56,7 +56,46 @@ class ERHook
     int start(void);
     int stop(void);
     bool isHooked(void);
+    void update(void);
     DWORD getPID(void);
+
+    // Getters
+    std::string getCharacterName(void);
+    int getHealth(void);
+    int getMaxHealth(void);
+    int getFocus(void);
+    int getStamina(void);
+    float getEquipLoad(void);
+    float getMaxEquipLoad(void);
+    int getPoise(void);
+    int getMemorySlots(void);
+    int getVigor(void);
+    int getMind(void);
+    int getEndurance(void);
+    int getStrength(void);
+    int getDexterity(void);
+    int getIntelliogence(void);
+    int getFaith(void);
+    int getArcane(void);
+
+    // Setters
+    void setCharacterName(int value);
+    void setHealth(int value);
+    void setMaxHealth(int value);
+    void setFocus(int value);
+    void setStamina(int value);
+    void setEquipLoad(float value);
+    void setMaxEquipLoad(float value);
+    void setPoise(int value);
+    void setMemorySlots(int value);
+    void setVigor(int value);
+    void setMind(int value);
+    void setEndurance(int value);
+    void setStrength(int value);
+    void setDexterity(int value);
+    void setIntelliogence(int value);
+    void setFaith(int value);
+    void setArcane(int value);
 };
 
 template <typename T> inline T ERHook::readMemory(uintptr_t address)
