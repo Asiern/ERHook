@@ -29,6 +29,7 @@ int main()
     while (!hook.isHooked())
     {
         hook.start();
+        Sleep(1000);
     }
     cout << "Hooked" << endl;
 
