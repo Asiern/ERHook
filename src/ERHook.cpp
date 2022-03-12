@@ -10,6 +10,7 @@
  */
 
 #include "ERHook.hpp"
+#include <iostream>
 
 /**
  * @brief Get process id
@@ -19,9 +20,12 @@
  */
 bool ERHook::getProcessID(void)
 {
-    HWND hwnd = FindWindowA(NULL, "ELDEN RINGâ„¢");
+    HWND hwnd = FindWindow(NULL, "ELDEN RING™");
     if (hwnd == NULL)
+    {
+        std::cout << "Window not found" << std::endl;
         return false;
+    }
 
     DWORD pID;                                                    // Process ID
     GetWindowThreadProcessId(hwnd, &pID);                         // Get Process ID
@@ -30,6 +34,7 @@ bool ERHook::getProcessID(void)
         return false;
 
     this->PID = pID;
+    std::cout << "PID: " << pID << std::endl;
     CloseHandle(pHandle);
     return true;
 }
@@ -141,18 +146,20 @@ int ERHook::start(void)
         return ERR_PID_NOT_FOUND;
     }
 
-    // // Get Base Address
-    // if (getBaseAddress(L"eldenring.exe") == false)
-    // {
-    //     return ERR_MOD_ADD_NOT_FOUND;
-    // }
+    // Get Base Address
+    if (getBaseAddress(L"eldenring.exe") == false)
+    {
+        return ERR_MOD_ADD_NOT_FOUND;
+    }
 
-    // // Set proper offsets
+    std::cout << "BASE: 0x" << this->baseAddress << std::endl;
+
+    //// Set proper offsets
     // if (getGameVersion() == false)
-    // {
+    //{
     //     return ERR_VER_NOT_FOUND;
     // }
-    // loadOffsets(this->Info.versionCode, &this->Offsets);
+    loadOffsets(VER_1_02_3, &this->Offsets);
 
     // Change hooked status
     hooked = true;
