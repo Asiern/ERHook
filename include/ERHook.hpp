@@ -77,9 +77,10 @@ class ERHook
     int getIntelliogence(void);
     int getFaith(void);
     int getArcane(void);
+    int getLevel(void);
 
     // Setters
-    void setCharacterName(int value);
+    void setCharacterName(std::string value);
     void setHealth(int value);
     void setMaxHealth(int value);
     void setFocus(int value);
@@ -96,6 +97,7 @@ class ERHook
     void setIntelliogence(int value);
     void setFaith(int value);
     void setArcane(int value);
+    void setLevel(int value);
 };
 
 template <typename T> inline T ERHook::readMemory(uintptr_t address)
