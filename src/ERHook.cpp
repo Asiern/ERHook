@@ -20,7 +20,7 @@
  */
 bool ERHook::getProcessID(void)
 {
-    HWND hwnd = FindWindow(NULL, "ELDEN RING™");
+    HWND hwnd = FindWindow(NULL, "ELDEN RINGï¿½");
     if (hwnd == NULL)
     {
         std::cout << "Window not found" << std::endl;
