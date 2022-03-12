@@ -16,7 +16,7 @@ set(
 if(ERHOOK_STATIC_LIB)
     add_library(${PROJECT_NAME} STATIC ${SOURCES})
 else()
-    add_library(${PROJECT_NAME} STATIC ${SOURCES})
+    add_library(${PROJECT_NAME} SHARED ${SOURCES})
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
