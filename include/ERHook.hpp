@@ -34,7 +34,8 @@
 class ERHook
 {
     DWORD PID;             // Process ID
-    uintptr_t baseAddress; // Module base address
+    uintptr_t baseAddress; // eldenring.exe Module base address
+    DWORD modBaseSize;     // eldenring.exe Module size
     info Info;             // Game info
     offsets Offsets;       // Memory offsets
     bool hooked;           // Hook status
@@ -42,6 +43,8 @@ class ERHook
     bool getProcessID(void);
     bool getBaseAddress(const wchar_t* modName);
     bool getGameVersion(void);
+    void* aobScan(char* base, size_t size, char* pattern, char* mask);
+    void* aobScanEx(uintptr_t begin, uintptr_t end, char* pattern, char* mask);
 
     // MemoryTools
     template <typename T> T readMemory(uintptr_t address);
@@ -74,7 +77,7 @@ class ERHook
     int getEndurance(void);
     int getStrength(void);
     int getDexterity(void);
-    int getIntelliogence(void);
+    int getIntelligence(void);
     int getFaith(void);
     int getArcane(void);
     int getLevel(void);
@@ -94,7 +97,7 @@ class ERHook
     void setEndurance(int value);
     void setStrength(int value);
     void setDexterity(int value);
-    void setIntelliogence(int value);
+    void setIntelligence(int value);
     void setFaith(int value);
     void setArcane(int value);
     void setLevel(int value);
@@ -103,7 +106,7 @@ class ERHook
 template <typename T> inline T ERHook::readMemory(uintptr_t address)
 {
     T value;
-    HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, this->_pID);
+    HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, this->PID);
     ReadProcessMemory(pHandle, (LPCVOID)(address), &value, sizeof(value), NULL);
     CloseHandle(pHandle);
     return value;
@@ -111,7 +114,7 @@ template <typename T> inline T ERHook::readMemory(uintptr_t address)
 
 template <typename T> inline void ERHook::writeMemory(uintptr_t address, T value)
 {
-    HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, NULL, this->_pID);
+    HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, NULL, this->PID);
     WriteProcessMemory(pHandle, (LPVOID)(address), &value, sizeof(value), NULL);
     CloseHandle(pHandle);
 }
